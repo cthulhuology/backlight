@@ -4,42 +4,42 @@ empty
 0 value max-brightness
 0 value current-brightness
 
-: max-brightness-file
+: max-brightness-file ( -- fid )
 	s" /sys/class/backlight/intel_backlight/max_brightness" R/O open-file
 	if ." failed to open max_brightness " bye then ;
 
-: read-max-brightness
+: read-max-brightness ( -- )
 	0.
 	pad 80 max-brightness-file read-file 
 	if ." read from max_brightness failed " bye then 
 	1 - pad swap >number 3drop to max-brightness ;
 
-: current-brightness-file
+: current-brightness-file ( -- fid )
 	s" /sys/class/backlight/intel_backlight/brightness" R/O open-file
 	if ." failed to open brightness" bye then ;
 
-: read-current-brightness
+: read-current-brightness ( -- )
 	0.
 	pad 80 current-brightness-file read-file
 	if ." read from current brightness failed " bye then
 	1 - pad swap >number 3drop to current-brightness ;
 
-: step max-brightness 10 / ;
+: step max-brightness 10 / ; ( -- n )
 
-: up current-brightness step + max-brightness min ;
-: down current-brightness step - 0 max ;
+: up current-brightness step + max-brightness min ; ( -- n )
+: down current-brightness step - 0 max ; ( -- n )
 
 
-: set-brightness-file
+: set-brightness-file ( -- fid )
 	s" /sys/class/backlight/intel_backlight/brightness" W/O open-file
 	if ." failed to open brightness for writing" bye then ;
 	
 
-: set-brightness
+: set-brightness ( n -- )
 	0 <# #s #> set-brightness-file write-file
 	if ." failed to set brightness " then ;
 
-: action 1 argv ;
+: action 1 argv ; ( -- addr u )
 
 : go
 	read-max-brightness
