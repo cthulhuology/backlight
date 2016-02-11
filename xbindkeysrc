@@ -1,0 +1,5 @@
+"/home/desktop/bin/brightness up"
+   XF86MonBrightnessUp
+
+"/home/desktop/bin/brightness down"
+   XF86MonBrightnessDown
